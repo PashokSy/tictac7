@@ -1,0 +1,36 @@
+{
+  "name": "tictac7",
+  "version": "1.0.0",
+  "description": "Tic Tac Toe game expanded to 7x7 field",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack --mode production",
+    "start": "npx webpack-dev-server --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PashokSy/tictac7.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "Game"
+  ],
+  "author": "Pavlo S",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/PashokSy/tictac7/issues"
+  },
+  "homepage": "https://github.com/PashokSy/tictac7#readme",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.6.0",
+    "sass": "^1.69.7",
+    "sass-loader": "^13.3.3",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
