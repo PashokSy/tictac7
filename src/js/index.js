@@ -77,29 +77,30 @@ function togglePlayer() {
 }
 
 function winCheck() {
-  let winArr = [];
+  let winArrRows = [];
+  let winArrColumns = [];
 
   // rows
   for (let row = 0; row < 7; row++) {
     for (let column = 0; column < 7; column++) {
       if (gameArr[row][column] === 0 || gameArr[row][column] === 1) {
-        winArr = [];
+        winArrRows = [];
         continue;
       }
       if (gameArr[row][column] === 2) {
-        if (winArr.length === 0 || winArr[0] === 2) {
-          winArr.push(2);
-        } else winArr = [];
-        if (winArr.length === 5) {
+        if (winArrRows.length === 0 || winArrRows[0] === 2) {
+          winArrRows.push(2);
+        } else winArrRows = [];
+        if (winArrRows.length === 5) {
           alert('X wins (2)');
           return;
         }
       }
-      if (winArr.length === 0 || gameArr[row][column] === 3) {
-        if (winArr[0] === 3) {
-          winArr.push(3);
-        } else winArr = [];
-        if (winArr.length === 5) {
+      if (gameArr[row][column] === 3) {
+        if (winArrRows.length === 0 || winArrRows[0] === 3) {
+          winArrRows.push(3);
+        } else winArrRows = [];
+        if (winArrRows.length === 5) {
           alert('O wins (3)');
           return;
         }
@@ -108,9 +109,32 @@ function winCheck() {
   }
 
   // columns
-  // for (let column = 0; column < 7; column++) {
-  //   for (let row = 0; row < 7; row++) {}
-  // }
+  for (let column = 0; column < 7; column++) {
+    for (let row = 0; row < 7; row++) {
+      if (gameArr[row][column] === 0 || gameArr[row][column] === 1) {
+        winArrColumns = [];
+        continue;
+      }
+      if (gameArr[row][column] === 2) {
+        if (winArrColumns.length === 0 || winArrColumns[0] === 2) {
+          winArrColumns.push(2);
+        } else winArrColumns = [];
+        if (winArrColumns.length === 5) {
+          alert('X wins (2)');
+          return;
+        }
+      }
+      if (gameArr[row][column] === 3) {
+        if (winArrColumns.length === 0 || winArrColumns[0] === 3) {
+          winArrColumns.push(3);
+        } else winArrColumns = [];
+        if (winArrColumns.length === 5) {
+          alert('O wins (3)');
+          return;
+        }
+      }
+    }
+  }
 }
 
 function gameLogic(event) {
