@@ -76,28 +76,63 @@ function togglePlayer() {
   else currentPlayer = 'x';
 }
 
+function winCheck() {
+  let winArr = [];
+
+  // rows
+  for (let row = 0; row < 7; row++) {
+    for (let column = 0; column < 7; column++) {
+      if (gameArr[row][column] === 0 || gameArr[row][column] === 1) {
+        winArr = [];
+        continue;
+      }
+      if (gameArr[row][column] === 2) {
+        winArr.push(2);
+        if (winArr.length === 5) {
+          alert('X wins (2)');
+          return;
+        }
+      }
+      if (gameArr[row][column] === 3) {
+        winArr.push(3);
+        if (winArr.length === 5) {
+          alert('X wins (3)');
+          return;
+        }
+      }
+    }
+  }
+}
+
+function gameLogic(event) {
+  // player missed a square
+  if (Object.keys(event.target.dataset).length === 0) return;
+  // square not 'active'
+  if (!event.target.classList.contains('active')) return;
+  // square is taken
+  if (event.target.dataset.occupied === 'true') return;
+  // mark as taken
+  else event.target.dataset.occupied = 'true';
+
+  const row = Number(event.target.dataset.row);
+  const column = Number(event.target.dataset.column);
+
+  playerMove(row, column);
+  togglePlayer();
+
+  activateFields(row, column);
+
+  renderBoard();
+
+  winCheck();
+
+  // testing
+  console.log(gameArr);
+}
+
 function init() {
   renderBoard();
 
-  board.addEventListener('click', (event) => {
-    // player missed a square
-    if (Object.keys(event.target.dataset).length === 0) return;
-    // square not 'active'
-    if (!event.target.classList.contains('active')) return;
-    // square is taken
-    if (event.target.dataset.occupied === 'true') return;
-    // if not taken mark as taken
-    else event.target.dataset.occupied = 'true';
-
-    const row = Number(event.target.dataset.row);
-    const column = Number(event.target.dataset.column);
-
-    playerMove(row, column);
-    togglePlayer();
-
-    activateFields(row, column);
-
-    renderBoard();
-  });
+  board.addEventListener('click', gameLogic);
 }
 init();
