@@ -87,21 +87,30 @@ function winCheck() {
         continue;
       }
       if (gameArr[row][column] === 2) {
-        winArr.push(2);
+        if (winArr.length === 0 || winArr[0] === 2) {
+          winArr.push(2);
+        } else winArr = [];
         if (winArr.length === 5) {
           alert('X wins (2)');
           return;
         }
       }
-      if (gameArr[row][column] === 3) {
-        winArr.push(3);
+      if (winArr.length === 0 || gameArr[row][column] === 3) {
+        if (winArr[0] === 3) {
+          winArr.push(3);
+        } else winArr = [];
         if (winArr.length === 5) {
-          alert('X wins (3)');
+          alert('O wins (3)');
           return;
         }
       }
     }
   }
+
+  // columns
+  // for (let column = 0; column < 7; column++) {
+  //   for (let row = 0; row < 7; row++) {}
+  // }
 }
 
 function gameLogic(event) {
