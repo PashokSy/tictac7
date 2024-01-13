@@ -88,21 +88,19 @@ function winCheck() {
         continue;
       }
       if (gameArr[row][column] === 2) {
-        if (winArrRows.length === 0 || winArrRows[0] === 2) {
-          winArrRows.push(2);
+        if (winArrRows.length === 0 || winArrRows[0].player === 'X') {
+          winArrRows.push({ player: 'X', row, column });
         } else winArrRows = [];
         if (winArrRows.length === 5) {
-          alert('X wins (2)');
-          return;
+          return winArrRows;
         }
       }
       if (gameArr[row][column] === 3) {
-        if (winArrRows.length === 0 || winArrRows[0] === 3) {
-          winArrRows.push(3);
+        if (winArrRows.length === 0 || winArrRows[0].player === 'O') {
+          winArrRows.push({ player: 'O', row, column });
         } else winArrRows = [];
         if (winArrRows.length === 5) {
-          alert('O wins (3)');
-          return;
+          return winArrRows;
         }
       }
     }
@@ -116,25 +114,28 @@ function winCheck() {
         continue;
       }
       if (gameArr[row][column] === 2) {
-        if (winArrColumns.length === 0 || winArrColumns[0] === 2) {
-          winArrColumns.push(2);
+        if (winArrColumns.length === 0 || winArrColumns[0].player === 'X') {
+          winArrColumns.push({ player: 'X', row, column });
         } else winArrColumns = [];
         if (winArrColumns.length === 5) {
-          alert('X wins (2)');
-          return;
+          return winArrColumns;
         }
       }
       if (gameArr[row][column] === 3) {
-        if (winArrColumns.length === 0 || winArrColumns[0] === 3) {
-          winArrColumns.push(3);
+        if (winArrColumns.length === 0 || winArrColumns[0].player === 'O') {
+          winArrColumns.push({ player: 'O', row, column });
         } else winArrColumns = [];
         if (winArrColumns.length === 5) {
-          alert('O wins (3)');
-          return;
+          return winArrColumns;
         }
       }
     }
   }
+
+  // diagonals
+
+  // win condition not fulfilled
+  return false;
 }
 
 function gameLogic(event) {
@@ -157,7 +158,10 @@ function gameLogic(event) {
 
   renderBoard();
 
-  winCheck();
+  const winner = winCheck();
+  console.log(winner);
+
+  if (winner) alert(`Winner is ${winner[0].player}`);
 
   // testing
   console.log(gameArr);
