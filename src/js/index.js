@@ -76,31 +76,31 @@ function togglePlayer() {
   else currentPlayer = 'x';
 }
 
-function winCheck() {
+function winCheck(boardArr) {
   let winArrRows = [];
   let winArrColumns = [];
 
   // rows
   for (let row = 0; row < 7; row++) {
     for (let column = 0; column < 7; column++) {
-      if (gameArr[row][column] === 0 || gameArr[row][column] === 1) {
+      if (boardArr[row][column] === 0 || boardArr[row][column] === 1) {
         winArrRows = [];
         continue;
       }
-      if (gameArr[row][column] === 2) {
+      if (boardArr[row][column] === 2) {
         if (winArrRows.length === 0 || winArrRows[0].player === 'X') {
           winArrRows.push({ player: 'X', row, column });
         } else winArrRows = [];
         if (winArrRows.length === 5) {
-          return winArrRows;
+          return { win: true, boardArr: winArrRows };
         }
       }
-      if (gameArr[row][column] === 3) {
+      if (boardArr[row][column] === 3) {
         if (winArrRows.length === 0 || winArrRows[0].player === 'O') {
           winArrRows.push({ player: 'O', row, column });
         } else winArrRows = [];
         if (winArrRows.length === 5) {
-          return winArrRows;
+          return { win: true, boardArr: winArrRows };
         }
       }
     }
@@ -109,24 +109,24 @@ function winCheck() {
   // columns
   for (let column = 0; column < 7; column++) {
     for (let row = 0; row < 7; row++) {
-      if (gameArr[row][column] === 0 || gameArr[row][column] === 1) {
+      if (boardArr[row][column] === 0 || boardArr[row][column] === 1) {
         winArrColumns = [];
         continue;
       }
-      if (gameArr[row][column] === 2) {
+      if (boardArr[row][column] === 2) {
         if (winArrColumns.length === 0 || winArrColumns[0].player === 'X') {
           winArrColumns.push({ player: 'X', row, column });
         } else winArrColumns = [];
         if (winArrColumns.length === 5) {
-          return winArrColumns;
+          return { win: true, boardArr: winArrRows };
         }
       }
-      if (gameArr[row][column] === 3) {
+      if (boardArr[row][column] === 3) {
         if (winArrColumns.length === 0 || winArrColumns[0].player === 'O') {
           winArrColumns.push({ player: 'O', row, column });
         } else winArrColumns = [];
         if (winArrColumns.length === 5) {
-          return winArrColumns;
+          return { win: true, boardArr: winArrRows };
         }
       }
     }
@@ -135,7 +135,36 @@ function winCheck() {
   // diagonals
 
   // win condition not fulfilled
-  return false;
+  return { win: false, boardArr };
+}
+
+function drawCheck() {
+  let copyArrX = [];
+  let copyArrO = [];
+
+  // copy a board
+  for (let row = 0; row < 7; row++) {
+    copyArrX[row] = gameArr[row].slice();
+    copyArrO[row] = gameArr[row].slice();
+  }
+
+  // fill with one of the player and check a win condition
+  for (let row = 0; row < 7; row++) {
+    for (let column = 0; column < 7; column++) {
+      // player X
+      if (gameArr[row][column] === 0 || gameArr[row][column] === 1) {
+        copyArrX[row][column] = 2;
+        copyArrO[row][column] = 3;
+      }
+    }
+  }
+
+  const gameStateX = winCheck(copyArrX);
+  const gameStateO = winCheck(copyArrO);
+
+  if (gameStateX.win) return false;
+  else if (gameStateO.win) return false;
+  else return true;
 }
 
 function gameLogic(event) {
@@ -151,17 +180,29 @@ function gameLogic(event) {
   const row = Number(event.target.dataset.row);
   const column = Number(event.target.dataset.column);
 
+  // one of the player did a move
   playerMove(row, column);
   togglePlayer();
 
+  // activate surrounding fields
   activateFields(row, column);
 
+  // check if one of the players wins
+  const gameState = winCheck(gameArr);
+  if (gameState.win) {
+    let winLine = '';
+    gameState.boardArr.forEach((move) => {
+      winLine += `row: ${move.row}; column: ${move.column}\n`;
+    });
+    alert(`Player ${gameState.boardArr[0].player} wins!\n${winLine}`);
+  }
+
+  // check if draw
+  const draw = drawCheck();
+  if (draw) alert('DRAW!');
+
+  // render new board after move
   renderBoard();
-
-  const winner = winCheck();
-  console.log(winner);
-
-  if (winner) alert(`Winner is ${winner[0].player}`);
 
   // testing
   console.log(gameArr);
