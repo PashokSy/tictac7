@@ -194,6 +194,7 @@ function gameLogic(event) {
     gameState.boardArr.forEach((move) => {
       winLine += `row: ${move.row}; column: ${move.column}\n`;
     });
+    // TODO fix alert
     alert(`Player ${gameState.boardArr[0].player} wins!\n${winLine}`);
   }
 
