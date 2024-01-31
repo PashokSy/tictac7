@@ -1,21 +1,6 @@
-$square-color: #999;
-$square-color-active: #fff;
-$square-color-hover: #138b81;
-$square-border-color: #000;
+@import './utils/variables';
+@import './base';
 
-.game {
-  &__square {
-    background-color: $square-color;
-    border: 1px solid $square-border-color;
-    height: 48px;
-    width: 48px;
+@import './layouts/game';
 
-    &.active {
-      background-color: $square-color-active;
-    }
-  }
 
-  &__square:hover {
-    background-color: $square-color-hover;
-  }
-}
